@@ -1,4 +1,4 @@
-package com.github.xiaodongw.swagger.finatra
+package com.spavikevik.swagger_finatra
 
 trait SwaggerSupportBase {
   val finatraSwagger: FinatraSwagger

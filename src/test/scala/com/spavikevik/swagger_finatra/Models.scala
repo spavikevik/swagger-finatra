@@ -1,4 +1,4 @@
-package com.github.xiaodongw.swagger.finatra
+package com.spavikevik.swagger_finatra
 
 import io.swagger.annotations.{ApiModelProperty, ApiModel}
 import org.joda.time.{LocalDate, DateTime}

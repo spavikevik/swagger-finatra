@@ -1,4 +1,4 @@
-package com.github.xiaodongw.swagger.finatra
+package com.spavikevik.swagger_finatra
 
 import io.swagger.models.properties.RefProperty
 import io.swagger.models.{Response, RefModel, Operation}
@@ -10,7 +10,7 @@ import scala.collection.JavaConverters._
 import scala.reflect.runtime.universe._
 
 class OperationWrap(finatraSwagger: FinatraSwagger) {
-  private[finatra] val operation = new Operation
+  private[swagger_finatra] val operation = new Operation
 
   def addSecurity(s: String, scopes: List[String]): Unit = {
     operation.addSecurity(s, scopes.asJava)

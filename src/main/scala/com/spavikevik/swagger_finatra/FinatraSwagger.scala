@@ -1,4 +1,4 @@
-package com.github.xiaodongw.swagger.finatra
+package com.spavikevik.swagger_finatra
 
 import io.swagger.converter.ModelConverters
 import io.swagger.models.auth.SecuritySchemeDefinition
@@ -9,7 +9,7 @@ import scala.collection.JavaConverters._
 import scala.reflect.runtime._
 import scala.reflect.runtime.universe._
 
-class FinatraSwagger() {
+class FinatraSwagger {
   private[this] val _swagger = {
     val swagger = new Swagger
 
@@ -52,7 +52,7 @@ class FinatraSwagger() {
     this
   }
 
-  def addTag(tag: Tag) = {
+  def addTag(tag: Tag): FinatraSwagger = {
     swagger.addTag(tag)
     this
   }

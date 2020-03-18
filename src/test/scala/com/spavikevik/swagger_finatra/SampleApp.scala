@@ -1,15 +1,15 @@
-package com.github.xiaodongw.swagger.finatra
+package com.spavikevik.swagger_finatra
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategy
+import com.fasterxml.jackson.databind.PropertyNamingStrategy.SnakeCaseStrategy
 import com.twitter.finatra.http.HttpServer
 import com.twitter.finatra.http.filters.CommonFilters
 import com.twitter.finatra.http.routing.HttpRouter
-import io.swagger.models.{ExternalDocs, Tag}
 import io.swagger.models.auth.BasicAuthDefinition
+import io.swagger.models.{ExternalDocs, Tag}
 import io.swagger.util.Json
 
 object SampleSwagger extends FinatraSwagger {
-  Json.mapper().setPropertyNamingStrategy(new PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy)
+  Json.mapper().setPropertyNamingStrategy(new SnakeCaseStrategy)
 }
 
 object SampleApp extends HttpServer {
@@ -34,7 +34,7 @@ object SampleApp extends HttpServer {
     .setExternalDocs({
       val d = new ExternalDocs()
       d.setDescription("This is external document")
-      d.setUrl("https://github.com/Mekajiki/swagger-finatra")
+      d.setUrl("https://github.com/spavikevik/swagger-finatra")
       d
     })
 

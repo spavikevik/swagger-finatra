@@ -1,8 +1,8 @@
-package com.github.xiaodongw.swagger.finatra
+package com.spavikevik.swagger_finatra
 
 import com.twitter.finagle.http.Request
 import com.twitter.finatra.http.Controller
-import com.twitter.finatra.response.Mustache
+import com.twitter.finatra.http.response.Mustache
 import io.swagger.util.Json
 
 @Mustache("index")
