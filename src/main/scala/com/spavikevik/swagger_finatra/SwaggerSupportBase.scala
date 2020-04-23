@@ -14,6 +14,4 @@ trait SwaggerSupportBase {
 
     op
   }
-
-
 }
