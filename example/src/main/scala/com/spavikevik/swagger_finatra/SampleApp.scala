@@ -1,8 +1,10 @@
 package com.spavikevik.swagger_finatra
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy.SnakeCaseStrategy
+import com.google.inject.Module
 import com.twitter.finatra.http.HttpServer
 import com.twitter.finatra.http.filters.CommonFilters
+import com.twitter.finatra.http.modules.MustacheModule
 import com.twitter.finatra.http.routing.HttpRouter
 import io.swagger.models.auth.BasicAuthDefinition
 import io.swagger.models.{ExternalDocs, Tag}
@@ -13,6 +15,8 @@ object SampleSwagger extends FinatraSwagger {
 }
 
 object SampleApp extends HttpServer {
+  override val modules: Seq[Module] = Seq(MustacheModule)
+
   SampleSwagger
     .registerInfo(
       description = "The Student / Course management API, this is a sample for swagger document generation",

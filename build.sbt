@@ -21,3 +21,16 @@ libraryDependencies ++= Seq(
 )
 
 lazy val root = Project("swagger-finatra", file("."))
+
+val examplesLibs = Seq(
+  "com.twitter" %% "finatra-http" % finatraVersion % "test" classifier "tests",
+  "com.twitter" %% "inject-app" % finatraVersion % "test" classifier "tests",
+  "com.twitter" %% "inject-core" % finatraVersion % "test" classifier "tests",
+  "com.twitter" %% "inject-modules" % finatraVersion % "test" classifier "tests",
+  "com.twitter" %% "inject-server" % finatraVersion % "test" classifier "tests",
+  "ch.qos.logback" % "logback-classic" % "1.2.3"
+)
+
+lazy val example = Project("swagger-finatra-example", file("example"))
+  .dependsOn(root)
+  .settings(libraryDependencies ++= examplesLibs)

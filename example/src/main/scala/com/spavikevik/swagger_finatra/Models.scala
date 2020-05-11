@@ -1,7 +1,7 @@
 package com.spavikevik.swagger_finatra
 
-import io.swagger.annotations.{ApiModelProperty, ApiModel}
-import org.joda.time.{LocalDate, DateTime}
+import io.swagger.annotations.{ApiModel, ApiModelProperty}
+import org.joda.time.{DateTime, LocalDate}
 
 @ApiModel(value="AddressModel", description="Sample address model for documentation")
 case class Address(street: String, zip: String)
