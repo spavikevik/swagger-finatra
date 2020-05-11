@@ -24,10 +24,10 @@ class FinatraSwagger {
     swagger
   }
 
-  def registerModel[T: TypeTag]: Property = {
+  def registerModel[T: TypeTag]: Option[Property] = {
     val paramType: Type = typeOf[T]
-    if(paramType =:= TypeTag.Nothing.tpe) {
-      null
+    if (paramType =:= TypeTag.Nothing.tpe) {
+      None
     } else {
       val typeClass = currentMirror.runtimeClass(paramType)
 
@@ -38,7 +38,7 @@ class FinatraSwagger {
       }
       val schema = modelConverters.readAsProperty(typeClass)
 
-      schema
+      Option(schema)
     }
   }
 
@@ -86,5 +86,5 @@ class FinatraSwagger {
   }
 
   //use it to modify something not available on API
-  def swagger = _swagger
+  def swagger: Swagger = _swagger
 }

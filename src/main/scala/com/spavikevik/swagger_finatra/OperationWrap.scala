@@ -1,13 +1,12 @@
 package com.spavikevik.swagger_finatra
 
-import io.swagger.models.properties.RefProperty
-import io.swagger.models.{Response, RefModel, Operation}
+import io.swagger.models.{Model, Operation, Response}
 import io.swagger.models.parameters._
 import io.swagger.util.Json
+
 import scala.collection.JavaConverters._
-
-
 import scala.reflect.runtime.universe._
+import com.spavikevik.swagger_finatra.SchemaUtil._
 
 class OperationWrap(finatraSwagger: FinatraSwagger) {
   private[swagger_finatra] val operation = new Operation
@@ -25,98 +24,82 @@ class OperationWrap(finatraSwagger: FinatraSwagger) {
   }
 
   def routeParam[T: TypeTag](name: String, description: String = "", required: Boolean = true): Unit = {
-    val param = new PathParameter()
+    val param: Parameter = new PathParameter()
       .name(name)
       .description(description)
       .required(required)
-      .property(finatraSwagger.registerModel[T])
+      .property(finatraSwagger.registerModel[T].orNull)
 
     operation.parameter(param)
   }
 
   def queryParam[T: TypeTag](name: String, description: String = "", required: Boolean = true): Unit = {
-    val param = new QueryParameter()
+    val param: Parameter = new QueryParameter()
       .name(name)
       .description(description)
       .required(required)
-      .property(finatraSwagger.registerModel[T])
+      .property(finatraSwagger.registerModel[T].orNull)
 
     operation.parameter(param)
   }
 
   def headerParam[T: TypeTag](name: String, description: String = "", required: Boolean = true): Unit = {
-    val param = new HeaderParameter()
+    val param: Parameter = new HeaderParameter()
       .name(name)
       .description(description)
       .required(required)
-      .property(finatraSwagger.registerModel[T])
+      .property(finatraSwagger.registerModel[T].orNull)
 
     operation.parameter(param)
   }
 
   def formParam[T: TypeTag](name: String, description: String = "", required: Boolean = true): Unit = {
-    val param = new FormParameter()
+    val param: Parameter = new FormParameter()
       .name(name)
       .description(description)
       .required(required)
-      .property(finatraSwagger.registerModel[T])
+      .property(finatraSwagger.registerModel[T].orNull)
 
     operation.parameter(param)
   }
 
   def cookieParam[T: TypeTag](name: String, description: String = "", required: Boolean = true): Unit = {
-    val param = new CookieParameter()
+    val param: Parameter = new CookieParameter()
       .name(name)
       .description(description)
       .required(required)
-      .property(finatraSwagger.registerModel[T])
+      .property(finatraSwagger.registerModel[T].orNull)
 
     operation.parameter(param)
   }
 
   def bodyParam[T: TypeTag](name: String, description: String = "", example: Option[T] = None): Unit = {
-    val schema = finatraSwagger.registerModel[T]
+    val model: Option[Model] = finatraSwagger.registerModel[T].flatMap(toModel)
 
-    val model = schema match {
-      case null => null
-      case p: RefProperty => new RefModel(p.getSimpleRef)
-      case _ => null  //todo map ArrayProperty to ArrayModel?
+    example.foreach { e: T =>
+      model.foreach(_.setExample(Json.mapper.writeValueAsString(e)))
     }
 
-    //todo not working
-    example.foreach { e =>
-      if(model != null) {
-        model.setExample(Json.mapper.writeValueAsString(e))
-      }
-    }
-
-    val param = new BodyParameter()
+    val param: Parameter = new BodyParameter()
       .name(name)
       .description(description)
-      .schema(model)
+      .schema(model.orNull)
 
     operation.parameter(param)
   }
 
   def response[T: TypeTag](status: Int, description: String = "", example: Option[T] = None): Unit = {
-    val ref = finatraSwagger.registerModel[T]
+    val model: Option[Model] = finatraSwagger.registerModel[T].flatMap(toModel)
 
-    //todo not working, sample is not in the generated api, waiting for swagger fix
-    example.foreach { e =>
-      if(ref != null) {
-        val example = Json.mapper.writeValueAsString(e)
-
-        ref.setExample(example)
-        //val model = api.swagger.getDefinitions.get(ref.asInstanceOf[RefProperty].getSimpleRef)
-        //model.setExample(example)
-      }
+    example.foreach { e: T =>
+      model.foreach(_.setExample(e))
     }
 
-    val param = new Response()
+    val response: Response = new Response()
       .description(description)
-      .schema(ref)
+      .responseSchema(model.orNull)
 
-    operation.response(status, param)
+    operation.response(status, response)
   }
 
   def description(value: String): Unit = {
