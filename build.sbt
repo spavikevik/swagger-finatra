@@ -2,7 +2,6 @@ organization       := "com.spavikevik"
 name               := "swagger-finatra"
 scalaVersion       := "2.12.11"
 version            := "0.5.0"
-crossScalaVersions := Seq("2.11.12", "2.12.11")
 
 lazy val finatraVersion = "20.5.0"
 
