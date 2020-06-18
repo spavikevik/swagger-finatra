@@ -9,12 +9,14 @@ scalacOptions ++= Seq(
   "-deprecation"
 )
 
+resolvers += "Jitpack" at "https://jitpack.io"
+
 libraryDependencies ++= Seq(
   "com.twitter" %% "finatra-http" % finatraVersion,
   "com.twitter" %% "finatra-http-mustache" % finatraVersion,
-  "io.swagger" % "swagger-core" % "1.5.24",
-  "io.swagger" %% "swagger-scala-module" % "1.0.6",
-  "org.webjars" % "swagger-ui" % "3.25.0",
+  "io.swagger" % "swagger-core" % "1.6.1",
+  "com.github.spavikevik" % "swagger-scala-module" % "v1.0.7",
+  "org.webjars" % "swagger-ui" % "3.26.1",
   "net.bytebuddy" % "byte-buddy" % "1.10.5",
   "org.scalatest" %% "scalatest" % "3.0.8" % Test
 )
