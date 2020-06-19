@@ -1,7 +1,7 @@
 organization       := "com.spavikevik"
 name               := "swagger-finatra"
 scalaVersion       := "2.12.11"
-version            := "0.5.0"
+version            := "20.5.0"
 
 lazy val finatraVersion = "20.5.0"
 
