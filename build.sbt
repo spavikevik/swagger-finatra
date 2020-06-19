@@ -21,6 +21,17 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.0.8" % Test
 )
 
+val overrides = Seq(
+  "com.fasterxml.jackson.core" % "jackson-core" % "2.10.1",
+  "com.fasterxml.jackson.core" % "jackson-annotations" % "2.10.1",
+  "com.fasterxml.jackson.core" % "jackson-databind" % "2.10.1",
+  "com.fasterxml.jackson.dataformat" % "jackson-dataformat-yaml" % "2.10.1",
+  "com.fasterxml.jackson.module" % "jackson-module-paranamer" % "2.10.1",
+  "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.10.1",
+)
+
+dependencyOverrides ++= overrides
+
 lazy val root = Project("swagger-finatra", file("."))
 
 val examplesLibs = Seq(
@@ -35,3 +46,4 @@ val examplesLibs = Seq(
 lazy val example = Project("swagger-finatra-example", file("example"))
   .dependsOn(root)
   .settings(libraryDependencies ++= examplesLibs)
+  .settings(dependencyOverrides ++= overrides)
