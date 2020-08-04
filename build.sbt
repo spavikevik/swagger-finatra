@@ -3,7 +3,7 @@ name               := "swagger-finatra"
 scalaVersion       := "2.12.11"
 version            := "20.6.0"
 
-lazy val finatraVersion = "20.6.0"
+lazy val finatraVersion = "20.7.0"
 
 scalacOptions ++= Seq(
   "-deprecation"
