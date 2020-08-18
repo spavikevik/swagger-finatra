@@ -1,9 +1,9 @@
 organization       := "com.spavikevik"
 name               := "swagger-finatra"
 scalaVersion       := "2.12.11"
-version            := "20.6.0"
+version            := "20.8.0"
 
-lazy val finatraVersion = "20.7.0"
+lazy val finatraVersion = "20.8.0"
 
 scalacOptions ++= Seq(
   "-deprecation"
@@ -20,17 +20,6 @@ libraryDependencies ++= Seq(
   "net.bytebuddy" % "byte-buddy" % "1.10.5",
   "org.scalatest" %% "scalatest" % "3.0.8" % Test
 )
-
-//val overrides = Seq(
-//  "com.fasterxml.jackson.core" % "jackson-core" % "2.10.1",
-//  "com.fasterxml.jackson.core" % "jackson-annotations" % "2.10.1",
-//  "com.fasterxml.jackson.core" % "jackson-databind" % "2.10.1",
-//  "com.fasterxml.jackson.dataformat" % "jackson-dataformat-yaml" % "2.10.1",
-//  "com.fasterxml.jackson.module" % "jackson-module-paranamer" % "2.10.1",
-//  "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.10.1",
-//)
-//
-//dependencyOverrides ++= overrides
 
 lazy val root = Project("swagger-finatra", file("."))
 
