@@ -1,9 +1,9 @@
 organization       := "com.spavikevik"
 name               := "swagger-finatra"
 scalaVersion       := "2.12.11"
-version            := "20.8.0"
+version            := "20.9.0"
 
-lazy val finatraVersion = "20.8.0"
+lazy val finatraVersion = "20.9.0"
 
 scalacOptions ++= Seq(
   "-deprecation"
