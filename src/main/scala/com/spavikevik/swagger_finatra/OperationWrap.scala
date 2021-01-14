@@ -8,7 +8,7 @@ import scala.collection.JavaConverters._
 import scala.reflect.runtime.universe._
 import com.spavikevik.swagger_finatra.SchemaUtil._
 
-class OperationWrap(finatraSwagger: FinatraSwagger) {
+class OperationWrap {
   trait ParamWithType {
     type T
     def typeTag: TypeTag[T]
@@ -102,7 +102,7 @@ class OperationWrap(finatraSwagger: FinatraSwagger) {
   def deprecated(value: Boolean): Unit =
     isDeprecated = value
 
-  def toOperation: Operation = {
+  def toOperation(finatraSwagger: FinatraSwagger): Operation = {
     val operation = new Operation
     
     security.foreach { s => operation.addSecurity(s._1, s._2.asJava) }

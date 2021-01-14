@@ -71,7 +71,7 @@ class FinatraSwagger {
       _swagger.path(swaggerPath, spath)
     }
 
-    spath.set(method, operationWrap.toOperation)
+    spath.set(method, operationWrap.toOperation(finatraSwagger = this))
     this
   }
 
