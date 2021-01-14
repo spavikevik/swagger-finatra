@@ -9,7 +9,7 @@ import scala.collection.JavaConverters._
 import scala.reflect.runtime._
 import scala.reflect.runtime.universe._
 
-class FinatraSwagger {
+class FinatraSwagger(enabled: Boolean = true) {
   private[this] val _swagger = {
     val swagger = new Swagger
 
@@ -63,16 +63,18 @@ class FinatraSwagger {
   }
 
   def registerOperation(path: String, method: String, operationWrap: OperationWrap): FinatraSwagger = {
-    val swaggerPath = convertPath(path)
+    if (enabled) {
+      val swaggerPath = convertPath(path)
 
-    var spath = _swagger.getPath(swaggerPath)
-    if(spath == null) {
-      spath = new Path()
-      _swagger.path(swaggerPath, spath)
-    }
+      var spath = _swagger.getPath(swaggerPath)
+      if(spath == null) {
+        spath = new Path()
+        _swagger.path(swaggerPath, spath)
+      }
 
-    spath.set(method, operationWrap.toOperation(finatraSwagger = this))
-    this
+      spath.set(method, operationWrap.toOperation(finatraSwagger = this))
+      this
+    } else this
   }
 
   def registerInfo(description: String, version: String, title: String): FinatraSwagger = {
