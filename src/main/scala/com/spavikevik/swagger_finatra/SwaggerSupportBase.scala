@@ -3,8 +3,8 @@ package com.spavikevik.swagger_finatra
 trait SwaggerSupportBase {
   val finatraSwagger: FinatraSwagger
 
-  protected def registerOperation(path: String, method: String, op: OperationWrap): Unit = {
-    finatraSwagger.registerOperation(path, method, op.operation)
+  protected def registerOperation(path: String, method: String, operationWrap: OperationWrap): Unit = {
+    finatraSwagger.registerOperation(path, method, operationWrap)
   }
 
   protected def swagger(f: OperationWrap => Unit): OperationWrap = {

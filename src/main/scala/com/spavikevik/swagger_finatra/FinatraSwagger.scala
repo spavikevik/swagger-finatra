@@ -62,7 +62,7 @@ class FinatraSwagger {
     finatraRouteParamter.replaceAllIn(path, "{$1}")
   }
 
-  def registerOperation(path: String, method: String, operation: Operation): FinatraSwagger = {
+  def registerOperation(path: String, method: String, operationWrap: OperationWrap): FinatraSwagger = {
     val swaggerPath = convertPath(path)
 
     var spath = _swagger.getPath(swaggerPath)
@@ -71,7 +71,7 @@ class FinatraSwagger {
       _swagger.path(swaggerPath, spath)
     }
 
-    spath.set(method, operation)
+    spath.set(method, operationWrap.toOperation)
     this
   }
 
