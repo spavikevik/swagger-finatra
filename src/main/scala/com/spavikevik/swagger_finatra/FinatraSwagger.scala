@@ -24,8 +24,8 @@ class FinatraSwagger {
     swagger
   }
 
-  def registerModel[T: TypeTag]: Option[Property] = {
-    val paramType: Type = typeOf[T]
+  def registerModel[T](typeTag: TypeTag[T]): Option[Property] = {
+    val paramType: Type = typeOf[T](typeTag)
     if (paramType =:= TypeTag.Nothing.tpe) {
       None
     } else {

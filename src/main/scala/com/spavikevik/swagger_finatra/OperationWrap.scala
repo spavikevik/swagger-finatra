@@ -11,6 +11,7 @@ import com.spavikevik.swagger_finatra.SchemaUtil._
 class OperationWrap(finatraSwagger: FinatraSwagger) {
   trait ParamWithType {
     type T
+    def typeTag: TypeTag[T]
     def _name: String
     def _description: String
     def _required: Boolean
@@ -18,6 +19,7 @@ class OperationWrap(finatraSwagger: FinatraSwagger) {
 
   trait BodyParamWithType {
     type T
+    def typeTag: TypeTag[T]
     def _name: String
     def _description: String
     def _example: Option[T]
@@ -25,6 +27,7 @@ class OperationWrap(finatraSwagger: FinatraSwagger) {
 
   trait ResponseWithType {
     type T
+    def typeTag: TypeTag[T]
     def _status: Int
     def _description: String
     def _example: Option[T]
@@ -72,6 +75,7 @@ class OperationWrap(finatraSwagger: FinatraSwagger) {
   def bodyParam[TT: TypeTag](name: String, description: String = "", example: Option[TT] = None): Unit =
     bodyParams = bodyParams :+ new BodyParamWithType {
       type T = TT
+      def typeTag: TypeTag[T] = implicitly[TypeTag[TT]]
       def _name: String = name
       def _example: Option[T] = example
       def _description: String = description
@@ -80,6 +84,7 @@ class OperationWrap(finatraSwagger: FinatraSwagger) {
   def response[TT: TypeTag](status: Int, description: String = "", example: Option[TT] = None): Unit =
     responses = responses :+ new ResponseWithType {
       type T = TT
+      def typeTag: TypeTag[T] = implicitly[TypeTag[TT]]
       def _status: Int = status
       def _example: Option[T] = example
       def _description: String = description
@@ -109,7 +114,7 @@ class OperationWrap(finatraSwagger: FinatraSwagger) {
         .name(p._name)
         .description(p._description)
         .required(p._required)
-        .property(finatraSwagger.registerModel[p.T].orNull)
+        .property(finatraSwagger.registerModel[p.T](p.typeTag).orNull)
 
       operation.parameter(param)
     }
@@ -119,7 +124,7 @@ class OperationWrap(finatraSwagger: FinatraSwagger) {
         .name(p._name)
         .description(p._description)
         .required(p._required)
-        .property(finatraSwagger.registerModel[p.T].orNull)
+        .property(finatraSwagger.registerModel[p.T](p.typeTag).orNull)
 
       operation.parameter(param)
     }
@@ -129,7 +134,7 @@ class OperationWrap(finatraSwagger: FinatraSwagger) {
         .name(p._name)
         .description(p._description)
         .required(p._required)
-        .property(finatraSwagger.registerModel[p.T].orNull)
+        .property(finatraSwagger.registerModel[p.T](p.typeTag).orNull)
 
       operation.parameter(param)
     }
@@ -139,13 +144,13 @@ class OperationWrap(finatraSwagger: FinatraSwagger) {
         .name(p._name)
         .description(p._description)
         .required(p._required)
-        .property(finatraSwagger.registerModel[p.T].orNull)
+        .property(finatraSwagger.registerModel[p.T](p.typeTag).orNull)
 
       operation.parameter(param)
     }
 
     bodyParams.foreach { p =>
-      val model: Option[Model] = finatraSwagger.registerModel[p.T].flatMap(toModel)
+      val model: Option[Model] = finatraSwagger.registerModel[p.T](p.typeTag).flatMap(toModel)
 
       p._example.foreach { e: p.T =>
         model.foreach(_.setExample(Json.mapper.writeValueAsString(e)))
@@ -160,7 +165,7 @@ class OperationWrap(finatraSwagger: FinatraSwagger) {
     }
 
     responses.foreach { r =>
-      val model: Option[Model] = finatraSwagger.registerModel[r.T].flatMap(toModel)
+      val model: Option[Model] = finatraSwagger.registerModel[r.T](r.typeTag).flatMap(toModel)
 
       r._example.foreach { e: r.T =>
         model.foreach(_.setExample(e))
@@ -187,6 +192,7 @@ class OperationWrap(finatraSwagger: FinatraSwagger) {
     required: Boolean = true
   ): List[ParamWithType] = params :+ new ParamWithType {
     type T = TT
+    def typeTag: TypeTag[T] = implicitly[TypeTag[TT]]
     def _name: String = name
     def _required: Boolean = required
     def _description: String = description
