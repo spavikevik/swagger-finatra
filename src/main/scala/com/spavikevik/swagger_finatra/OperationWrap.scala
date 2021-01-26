@@ -109,6 +109,16 @@ class OperationWrap {
     summaryText.foreach(operation.setSummary)
     operation.setTags(tagsList.asJava)
 
+    routeParams.foreach { p =>
+      val param: Parameter = new PathParameter()
+        .name(p._name)
+        .description(p._description)
+        .required(p._required)
+        .property(finatraSwagger.registerModel[p.T](p.typeTag).orNull)
+
+      operation.parameter(param)
+    }
+
     queryParams.foreach { p =>
       val param: Parameter = new QueryParameter()
         .name(p._name)
